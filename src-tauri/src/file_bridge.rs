@@ -107,7 +107,7 @@ pub fn local_write(app: AppHandle, root: String, path: String, content: String) 
     // 破坏性操作必须用户当面确认（阻塞式对话框）。
     let approved = app
         .dialog()
-        .message(format!("允许 EvoAgent 写入本地文件？\n\n{}", file.display()))
+        .message(format!("允许 Coral Agent 写入本地文件？\n\n{}", file.display()))
         .title("确认写入")
         .buttons(MessageDialogButtons::OkCancel)
         .blocking_show();

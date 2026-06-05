@@ -1,8 +1,8 @@
 // 鉴权：登录/注册经云端 REST，token 存 localStorage。
 // 壳永不见 relay URL/key——只跟 CLOUD_API_BASE 说话。
 
-const TOKEN_KEY = "evoagent_token";
-const USER_KEY = "evoagent_user";
+const TOKEN_KEY = "coral_agent_token";
+const USER_KEY = "coral_agent_user";
 
 function getToken() { return localStorage.getItem(TOKEN_KEY); }
 function getUser() { return localStorage.getItem(USER_KEY); }

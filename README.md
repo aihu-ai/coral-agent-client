@@ -1,58 +1,72 @@
-# EvoAgent 桌面客户端
+# Coral Agent — Desktop Client
 
-EvoAgent 自进化 AI 助手的**桌面壳**。大脑在云端，本壳只负责：登录、对话、以及在你**授权的本地文件夹**内读写文件（每次写入都会弹确认框）。
+**Coral Agent** is a *self-evolving* AI assistant. It learns from how you work, refines its own skills over time, and gets more useful the more you use it.
 
-> 本仓库不含任何核心 AI 逻辑——唯一的配置是云端地址 `CLOUD_API_BASE`（见 `src/config.js`）。所有对话、工具、数据都在云端处理。
+This repository is the **open-source desktop client** — a thin shell. The brain lives in the cloud; this app only handles three things:
 
-## 功能
+1. **Sign in** to your Coral Agent account
+2. **Chat** with your agent in real time
+3. **Read and write files** inside a folder *you* authorize on your computer — with a confirmation dialog on every write
 
-- 账号登录 / 注册（云端鉴权，token 本地保存）
-- 实时流式对话（WebSocket）
-- 本地文件桥：云端 AI 可在你选定的授权目录内 `列目录 / 读文件 / 写文件`
-  - 路径在壳内经 `realpath` 校验，**绝不**逃逸授权目录
-  - 每次写入都弹**确认框**，你拒绝就不写
-  - 壳里**没有**任何代码执行能力（执行只在云端沙箱）
+> 🪸 **Try it:** download a build from [Releases](../../releases), sign in, and say hello. We'd genuinely love your feedback — what works, what's clunky, what you wish it could do. Email **406569772@qq.com** with ideas, bugs, or just to say hi. Every suggestion is read.
 
-## 开发
+---
 
-需要 [Rust](https://rustup.rs/) 和 [Tauri 前置依赖](https://tauri.app/start/prerequisites/)。
+## Why a desktop app instead of a website?
+
+A browser tab can't safely touch your local files. The desktop client can — within a folder you explicitly pick — so your agent can actually read your project, draft a document into it, or organize notes for you, instead of just talking about it.
+
+All the intelligence stays in the cloud. **This shell contains zero core AI logic.** Its only configuration is the cloud address `CLOUD_API_BASE` (see `src/config.js`). If you reverse-engineer this app, all you'll find is "it sends requests to a server."
+
+## Features
+
+- **Account login / registration** — cloud authentication, token stored locally
+- **Real-time streaming chat** over WebSocket
+- **Local file bridge** — your cloud agent can `list / read / write` files inside the folder you authorize:
+  - Paths are validated in the shell with `realpath` (canonicalization) — it **cannot** escape your chosen folder, even via `..` or symlinks
+  - **Every write pops a confirmation dialog** — if you decline, nothing is written
+  - The shell has **no code-execution capability** at all (code only ever runs in the cloud sandbox, never on your machine)
+
+## Install (unsigned-binary notice)
+
+The first builds are **unsigned**, so your OS will warn you. To allow it:
+
+- **macOS:** right-click the app → **Open** → **Open** again; or go to **System Settings → Privacy & Security** and click **Open Anyway**. From the terminal: `xattr -dr com.apple.quarantine /Applications/Coral\ Agent.app`
+- **Windows:** on the SmartScreen prompt, click **More info → Run anyway**.
+- **Linux:** make the `.AppImage` executable with `chmod +x Coral-Agent_*.AppImage`, then run it.
+
+## Privacy & security boundaries
+
+- The shell only knows `CLOUD_API_BASE`. It **never** sees the upstream relay URL or any API key.
+- File reads/writes are confined to the folder you select (Rust-side `canonicalize` + prefix assertion; absolute paths, `..` traversal, and symlink escapes are all rejected).
+- **No execute/shell primitive** — the app cannot run arbitrary code on your computer.
+
+## Build from source
+
+You'll need [Rust](https://rustup.rs/) and the [Tauri prerequisites](https://tauri.app/start/prerequisites/).
 
 ```bash
-# 安装 Tauri CLI（v2）
+# install the Tauri CLI (v2)
 cargo install tauri-cli --version "^2"
 
-# 开发模式（连真云端）
+# run in dev mode (connects to the live cloud)
 cargo tauri dev
 
-# 打包当前平台
+# build for your current platform
 cargo tauri build
 ```
 
-前端是纯 HTML/JS（`src/`，无构建步骤），Rust 文件桥在 `src-tauri/src/file_bridge.rs`。
+The frontend is plain HTML/JS (`src/`, no build step). The file bridge is in `src-tauri/src/file_bridge.rs`. To point the app at a different backend, edit `CLOUD_API_BASE` in `src/config.js`.
 
-### 改云端地址
+## Releases
 
-编辑 `src/config.js` 里的 `CLOUD_API_BASE`。
-
-## 发布
-
-打 `v*` tag 触发 GitHub Actions，跨平台（macOS arm64/x64、Windows、Linux）构建并发布到 Releases（草稿）。
+Pushing a `v*` tag triggers GitHub Actions to build for macOS (arm64/x64), Windows, and Linux, and publishes a draft Release:
 
 ```bash
 git tag v0.1.0
 git push origin v0.1.0
 ```
 
-## 安装（未签名二进制提示）
+## Feedback & contact
 
-首版二进制**未签名**，系统会拦截，请手动放行：
-
-- **macOS**：右键点 App → 「打开」→ 再次「打开」；或在「系统设置 → 隐私与安全性」里点「仍要打开」。命令行可执行 `xattr -dr com.apple.quarantine /Applications/EvoAgent.app`。
-- **Windows**：SmartScreen 弹窗点「更多信息」→「仍要运行」。
-- **Linux**：给 `.AppImage` 加可执行权限 `chmod +x EvoAgent_*.AppImage` 后运行。
-
-## 安全边界
-
-- 壳只持有 `CLOUD_API_BASE`，永远看不到上游 relay 地址或 API key。
-- 文件读写限定在你选择的授权目录内（Rust 侧 `canonicalize` + 前缀断言）。
-- 没有 execute/shell 原语——壳无法在你机器上运行任意代码。
+This is early and built in the open. If you try it, please tell us how it went — open an issue, or email **406569772@qq.com**. Suggestions shape what gets built next. 🪸

@@ -57,7 +57,7 @@ jobs:
           # 首版不签名：不设任何 APPLE_*/WINDOWS_* 证书密钥。
         with:
           tagName: ${{ github.ref_name }}
-          releaseName: "EvoAgent ${{ github.ref_name }}"
+          releaseName: "Coral Agent ${{ github.ref_name }}"
           releaseBody: "自动构建的桌面壳（未签名）。安装时按 README 绕过未签名警告。"
           releaseDraft: true
           prerelease: false

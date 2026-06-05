@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "EvoAgent",
+  "productName": "Coral Agent",
   "version": "0.1.0",
-  "identifier": "ai.evoagent.client",
+  "identifier": "ai.coralagent.client",
   "build": {
     "frontendDist": "../src"
   },
@@ -10,7 +10,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "EvoAgent",
+        "title": "Coral Agent",
         "width": 1100,
         "height": 760,
         "minWidth": 720,

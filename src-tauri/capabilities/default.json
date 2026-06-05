@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "EvoAgent 桌面壳默认能力：核心 API + 对话框（文件夹选择/写入确认）。文件读写经自定义 Rust 命令并在 Rust 内做路径守卫，不开放 fs 插件全盘 scope。",
+  "description": "Coral Agent 桌面壳默认能力：核心 API + 对话框（文件夹选择/写入确认）。文件读写经自定义 Rust 命令并在 Rust 内做路径守卫，不开放 fs 插件全盘 scope。",
   "windows": ["main"],
   "permissions": [
     "core:default",

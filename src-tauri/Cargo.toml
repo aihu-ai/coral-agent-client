@@ -1,8 +1,8 @@
 [package]
 name = "evo-agent-client"
 version = "0.1.0"
-description = "EvoAgent desktop shell"
-authors = ["EvoAgent"]
+description = "Coral Agent desktop shell"
+authors = ["Coral Agent"]
 edition = "2021"
 
 [lib]
