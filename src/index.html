@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EvoAgent</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- 登录视图 -->
+  <section id="view-login" class="view">
+    <div class="card">
+      <h1 class="brand">EvoAgent</h1>
+      <p class="sub">自进化 AI 助手 · 桌面客户端</p>
+      <input id="login-username" class="input" type="text" placeholder="用户名" autocomplete="username" />
+      <input id="login-password" class="input" type="password" placeholder="密码" autocomplete="current-password" />
+      <button id="btn-login" class="btn primary">登录</button>
+      <button id="btn-show-register" class="btn link">没有账号？注册</button>
+      <p id="login-error" class="error"></p>
+    </div>
+  </section>
+
+  <!-- 注册视图 -->
+  <section id="view-register" class="view hidden">
+    <div class="card">
+      <h1 class="brand">注册</h1>
+      <input id="reg-username" class="input" type="text" placeholder="用户名" />
+      <input id="reg-password" class="input" type="password" placeholder="密码（至少 6 位）" />
+      <button id="btn-register" class="btn primary">注册</button>
+      <button id="btn-show-login" class="btn link">已有账号？返回登录</button>
+      <p id="reg-error" class="error"></p>
+    </div>
+  </section>
+
+  <!-- 对话视图 -->
+  <section id="view-chat" class="view hidden">
+    <header class="topbar">
+      <span class="brand-sm">EvoAgent</span>
+      <span id="chat-user" class="user"></span>
+      <span class="spacer"></span>
+      <button id="btn-pick-root" class="btn ghost" title="选择允许 AI 读写的本地文件夹">📁 授权文件夹</button>
+      <span id="root-label" class="root-label"></span>
+      <span id="conn-dot" class="dot off" title="未连接"></span>
+      <button id="btn-logout" class="btn ghost">退出</button>
+    </header>
+
+    <main id="messages" class="messages"></main>
+
+    <footer class="composer">
+      <textarea id="chat-input" class="chat-input" rows="1" placeholder="输入消息，回车发送…"></textarea>
+      <button id="btn-send" class="btn primary">发送</button>
+    </footer>
+  </section>
+
+  <script src="config.js"></script>
+  <script src="login.js"></script>
+  <script src="bridge.js"></script>
+  <script src="chat.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+// 本地文件桥（壳侧）：云端大脑经 WS 发 file_request，壳调 Rust 命令做真正的读写，
+// 回 file_result。安全边界在 Rust（file_bridge.rs）：每个路径 realpath 校验在授权根目录内，
+// 写入前弹确认框。壳里没有 execute 原语——只能 list/read/write。
+
+async function handleFileRequest(ws, msg, root) {
+  const { request_id, op, path, content } = msg;
+
+  // 没选授权目录就直接拒绝（云端会把 [ERROR] 喂回模型，优雅降级）。
+  if (!root) {
+    ws.send(JSON.stringify({
+      type: "file_result", request_id, ok: false,
+      content: null, error: "未选择授权文件夹",
+    }));
+    return;
+  }
+
+  const invoke = window.__TAURI__.core.invoke;
+  let res;
+  try {
+    // op 严格对应 Rust 命令名：local_list / local_read / local_write。
+    res = await invoke(op, { root, path: path || "", content: content || "" });
+  } catch (e) {
+    res = { ok: false, content: null, error: String(e) };
+  }
+
+  ws.send(JSON.stringify({
+    type: "file_result",
+    request_id,
+    ok: !!res.ok,
+    content: res.content ?? null,
+    error: res.error ?? null,
+  }));
+}
+
+// 调 Rust 打开文件夹选择器，返回所选绝对路径（取消则 null）。
+async function pickRoot() {
+  try {
+    return await window.__TAURI__.core.invoke("pick_root");
+  } catch (_) {
+    return null;
+  }
+}
