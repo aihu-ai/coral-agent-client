@@ -1,5 +1,10 @@
 # Coral Agent — Desktop Client
 
+[![Release](https://img.shields.io/github/v/release/aihu-ai/coral-agent-client?color=11b3a3&label=download&logo=github)](https://github.com/aihu-ai/coral-agent-client/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/aihu-ai/coral-agent-client/total?color=11b3a3&label=total%20downloads)](https://github.com/aihu-ai/coral-agent-client/releases)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-555)](https://github.com/aihu-ai/coral-agent-client/releases/latest)
+[![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%20v2-24C8DB?logo=tauri)](https://tauri.app)
+
 **Coral Agent** is a *self-evolving* AI assistant. It learns from how you work, refines its own skills over time, and gets more useful the more you use it.
 
 This repository is the **open-source desktop client** — a thin shell. The brain lives in the cloud; this app only handles three things:
@@ -8,7 +13,24 @@ This repository is the **open-source desktop client** — a thin shell. The brai
 2. **Chat** with your agent in real time
 3. **Read and write files** inside a folder *you* authorize on your computer — with a confirmation dialog on every write
 
-> 🪸 **Try it:** download a build from [Releases](../../releases), sign in, and say hello. We'd genuinely love your feedback — what works, what's clunky, what you wish it could do. Email **406569772@qq.com** with ideas, bugs, or just to say hi. Every suggestion is read.
+> 🪸 **Try it:** download a build below, sign in, and say hello. We'd genuinely love your feedback — what works, what's clunky, what you wish it could do. Email **406569772@qq.com** with ideas, bugs, or just to say hi. Every suggestion is read.
+
+---
+
+## ⬇️ Download
+
+Grab the latest build for your platform — no account needed to download, just to sign in.
+
+| Platform | Download |
+|----------|----------|
+| 🍎 **macOS** (Apple Silicon) | [`.dmg` — arm64](https://github.com/aihu-ai/coral-agent-client/releases/latest) |
+| 🍎 **macOS** (Intel) | [`.dmg` — x64](https://github.com/aihu-ai/coral-agent-client/releases/latest) |
+| 🪟 **Windows** | [`.exe` installer](https://github.com/aihu-ai/coral-agent-client/releases/latest) · [`.msi`](https://github.com/aihu-ai/coral-agent-client/releases/latest) |
+| 🐧 **Linux** | [`.AppImage`](https://github.com/aihu-ai/coral-agent-client/releases/latest) · [`.deb`](https://github.com/aihu-ai/coral-agent-client/releases/latest) · [`.rpm`](https://github.com/aihu-ai/coral-agent-client/releases/latest) |
+
+**[→ See all downloads on the Releases page](https://github.com/aihu-ai/coral-agent-client/releases/latest)**
+
+> First builds are **unsigned** — see [Install notes](#install-unsigned-binary-notice) below to bypass the OS warning.
 
 ---
 
