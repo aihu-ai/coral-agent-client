@@ -7,7 +7,9 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             file_bridge::local_list,
             file_bridge::local_read,
+            file_bridge::local_read_b64,
             file_bridge::local_write,
+            file_bridge::local_open,
             file_bridge::pick_root,
         ])
         .run(tauri::generate_context!())

@@ -15,7 +15,7 @@ async function apiLogin(username, password) {
     body: JSON.stringify({ username, password }),
   });
   if (!r.ok) {
-    let detail = "登录失败";
+    let detail = t("login_fail");
     try { detail = (await r.json()).detail || detail; } catch (_) {}
     throw new Error(detail);
   }
@@ -25,14 +25,28 @@ async function apiLogin(username, password) {
   return body;
 }
 
-async function apiRegister(username, password) {
+async function apiSendCode(email) {
+  const r = await fetch(`${window.CLOUD_API_BASE}/api/auth/send_code`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+  if (!r.ok) {
+    let detail = t("send_code_fail");
+    try { detail = (await r.json()).detail || detail; } catch (_) {}
+    throw new Error(detail);
+  }
+  return await r.json();
+}
+
+async function apiRegister(username, password, email, code) {
   const r = await fetch(`${window.CLOUD_API_BASE}/api/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ username, password, email, code }),
   });
   if (!r.ok) {
-    let detail = "注册失败";
+    let detail = t("register_fail");
     try { detail = (await r.json()).detail || detail; } catch (_) {}
     throw new Error(detail);
   }

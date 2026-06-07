@@ -5,13 +5,16 @@
 async function handleFileRequest(ws, msg, root) {
   const { request_id, op, path, content } = msg;
 
-  // 没选授权目录就直接拒绝（云端会把 [ERROR] 喂回模型，优雅降级）。
+  // 没选授权目录→自动弹文件夹选择器，选完后继续；用户取消则拒绝。
   if (!root) {
-    ws.send(JSON.stringify({
-      type: "file_result", request_id, ok: false,
-      content: null, error: "未选择授权文件夹",
-    }));
-    return;
+    const picked = await pickRoot();
+    if (!picked) {
+      const denied = { ok: false, content: null, error: "未选择授权文件夹" };
+      ws.send(JSON.stringify({ type: "file_result", request_id, ...denied }));
+      return denied;
+    }
+    setAuthorizedRoot(picked);
+    root = picked;
   }
 
   const invoke = window.__TAURI__.core.invoke;
@@ -23,13 +26,13 @@ async function handleFileRequest(ws, msg, root) {
     res = { ok: false, content: null, error: String(e) };
   }
 
-  ws.send(JSON.stringify({
-    type: "file_result",
-    request_id,
+  const out = {
     ok: !!res.ok,
     content: res.content ?? null,
     error: res.error ?? null,
-  }));
+  };
+  ws.send(JSON.stringify({ type: "file_result", request_id, ...out }));
+  return out;
 }
 
 // 调 Rust 打开文件夹选择器，返回所选绝对路径（取消则 null）。
